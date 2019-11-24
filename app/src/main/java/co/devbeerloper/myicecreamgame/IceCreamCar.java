@@ -5,13 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 public class IceCreamCar {
 
     public static final float INIT_X =100;
     public static final float INIT_Y =100;
-    public static final int SPRITE_SIZE_WIDTH =600;
-    public static final int SPRITE_SIZE_HEIGTH=500;
+    public static final int SPRITE_SIZE_WIDTH =400;
+    public static final int SPRITE_SIZE_HEIGTH=300;
     public static final float GRAVITY_FORCE=10;
     private final int MIN_SPEED = 1;
     private final int MAX_SPEED = 20;
@@ -107,6 +108,8 @@ public class IceCreamCar {
      */
     public void updateInfo () {
 
+
+
         if (isJumping) {
             speed += 5;
         } else {
@@ -127,9 +130,26 @@ public class IceCreamCar {
         if (positionY > maxY) {
             positionY = maxY;
         }
+//        Log.i("Car position", "X:" +this.getPositionX() + " Y:"+this.getPositionY() );
+    }
 
+    public boolean carIntersectsObject(Object obj){
+        if(obj instanceof Kid){
+            obj = (Kid)obj;
 
-
-
+            if(((Kid) obj).getPositionY() > this.getPositionY())
+                if(((Kid) obj).getPositionY() <= (this.getPositionY()+SPRITE_SIZE_HEIGTH))
+                  if((((Kid) obj).getPositionX() <= this.positionX + SPRITE_SIZE_WIDTH)){
+                   return true;
+            }return false;
+        }else  if(obj instanceof Adult){
+            obj = (Adult)obj;
+            if(((Adult) obj).getPositionY() > this.getPositionY())
+                if(((Adult) obj).getPositionY() <= (this.getPositionY()+SPRITE_SIZE_HEIGTH))
+                    if((((Adult) obj).getPositionX() <= this.positionX + SPRITE_SIZE_WIDTH)){
+                        return true;
+                    }return false;
+        }
+        return false;
     }
 }
